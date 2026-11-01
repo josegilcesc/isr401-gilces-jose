@@ -1,0 +1,84 @@
+% ===============================================================
+% TAREA AUTONOMA No. 1 - INGENIERIA DE REQUISITOS (UTEQ)
+% Archivo: main.tex (Commit 1: Estructura base, stakeholders y RF)
+% ===============================================================
+\documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
+\addbibresource{referencias.bib}
+
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*,itemsep=1pt,topsep=2pt}
+\setlength{\parindent}{0.65em}
+\setlength{\parskip}{1pt}
+\setlength{\columnsep}{0.24in}
+\renewcommand{\arraystretch}{1.16}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\req}[1]{\noindent\textbf{#1:}\enspace}
+\DefineBibliographyStrings{spanish}{bibliography={Referencias}}
+\urlstyle{same}
+
+\title{Especificaci\'on de requisitos para un sistema de\\cobro de impuestos prediales en l\'inea}
+
+\author{
+	\IEEEauthorblockN{Jos\'e Ignacio Gilces Carranza}
+	\IEEEauthorblockA{Universidad T\'ecnica Estatal de Quevedo (UTEQ) --- Facultad de Ciencias de la Computaci\'on\\
+		Ingenier\'ia de Software $\cdot$ Ingenier\'ia de Requisitos (ISR-401) $\cdot$ Tarea aut\'onoma n.\textsuperscript{o} 1}
+}
+
+\begin{document}
+	\onecolumn
+	\maketitle
+	
+	\begin{abstract}
+		Se presenta la fase inicial de especificaci\'on de requisitos para un sistema
+		municipal de recaudaci\'on predial en l\'inea, adoptando los lineamientos
+		de redacci\'on de la norma ISO/IEC/IEEE 29148:2018 \cite{iso29148}. Se delimita
+		el universo de trabajo a 25\,000 predios catastrados y se identifican las partes
+		interesadas del proceso tributario local.
+	\end{abstract}
+	
+	\section{Stakeholders y necesidades preliminares}
+	\begin{center}
+		\centering
+		\footnotesize
+		\begin{tabularx}{\textwidth}{@{}p{3.15cm}p{3.1cm}Y@{}}
+			\toprule
+			\textbf{Stakeholder} & \textbf{Rol} & \textbf{Necesidad preliminar}\\
+			\midrule
+			Contribuyente & Usuario del portal & Consultar obligaciones de sus predios, pagar el valor exigible y obtener constancia.\\
+			Direcci\'on Financiera del GAD & Responsable de recaudaci\'on & Verificar t\'itulos, cobros confirmados y diferencias pendientes de revisi\'on.\\
+			Unidad de Catastro y Rentas & Custodio de datos de predios y t\'itulos & Proporcionar claves catastrales, titularidades, saldos y par\'ametros de c\'alculo vigentes.\\
+			Proveedor local de pasarela & Prestador de pagos & Recibir solicitudes de cobro y devolver confirmaciones identificables por transacci\'on.\\
+			Servicio de Rentas Internas (SRI) & Entidad tributaria externa & Devolver estados de autorizaci\'on \`unicamente para documentos sujetos al esquema tributario habilitado.\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\section{Requisitos funcionales}
+	\req{RF-01} El sistema deber\'a mostrar el detalle de los t\'itulos de cr\'edito pendientes del predio seleccionado cuando el contribuyente autenticado solicite la consulta, con el fin de identificar sus obligaciones prediales.
+	
+	\req{RF-02} El sistema deber\'a calcular el importe exigible de un t\'itulo de cr\'edito con los par\'ametros vigentes del GAD para intereses y recargos cuando el contribuyente solicite su liquidaci\'on a una fecha de corte, con el fin de determinar el monto a cobrar.
+	
+	\req{RF-03} El sistema deber\'a procesar el pago en l\'inea del importe exigible de un t\'itulo de cr\'edito mediante la pasarela local contratada cuando el contribuyente confirme la operaci\'on, con el fin de cancelar la obligaci\'on tras la aprobaci\'on de la pasarela.
+	
+	\req{RF-04} El sistema deber\'a emitir un comprobante electr\'onico municipal del pago cuando reciba su confirmaci\'on definitiva de la pasarela, con el fin de acreditar la cancelaci\'on del t\'itulo de cr\'edito.
+	
+	\req{RF-05} El sistema deber\'a conciliar por clave de acceso el estado de cada comprobante sujeto a autorizaci\'on tributaria asociado a un pago confirmado con el acuse de la interfaz habilitada del SRI cuando se ejecute el cierre diario, con el fin de identificar discrepancias de estado.
+	
+	\section{Referencias}
+	\printbibliography[heading=none]
+	
+\end{document}
