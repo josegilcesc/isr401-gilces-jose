@@ -8,12 +8,9 @@
 
 ---
 
-## Autores / Integrantes
+## Autor
 
 - **José Ignacio Gilces Carranza**
-- **Danela Dayana Arteaga Álava**
-- **Winston Damián Cedeño Ávila**
-- **Allan Jeremy Mendoza Palma**
 
 ---
 
@@ -32,12 +29,6 @@ Este repositorio contiene los archivos fuente en LaTeX y el documento PDF final 
 ├── main.tex                  # Archivo principal fuente en LaTeX
 ├── referencias.bib           # Bibliografia en formato BibTeX (estilo IEEE / biblatex)
 ├── main.pdf                  # PDF compilado final (maximo 6 paginas)
-├── secciones/                # Modulos del informe (.tex)
-│   ├── 01_stakeholders.tex
-│   ├── 02_requisitos_funcionales.tex
-│   ├── 03_requisitos_calidad_iso25010.tex
-│   └── 04_restricciones_dependencias.tex
-└── figuras/                  # Diagramas y esquemas de apoyo
 ```
 
 ---
