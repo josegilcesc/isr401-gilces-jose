@@ -78,6 +78,68 @@
 	
 	\req{RF-05} El sistema deber\'a conciliar por clave de acceso el estado de cada comprobante sujeto a autorizaci\'on tributaria asociado a un pago confirmado con el acuse de la interfaz habilitada del SRI cuando se ejecute el cierre diario, con el fin de identificar discrepancias de estado.
 	
+	\section{Requisitos no funcionales y clasificaci\'on ISO/IEC 25010:2023}
+	La clasificaci\'on utiliza cinco caracter\'isticas distintas del modelo de calidad
+	de producto \cite{iso25010}.
+	
+	\begin{center}
+		\centering
+		\scriptsize
+		\setlength{\tabcolsep}{3pt}
+		\begin{tabularx}{\textwidth}{@{}p{0.95cm}Y p{2.45cm} p{2.65cm}@{}}
+			\toprule
+			\textbf{ID} & \textbf{Requisito} & \textbf{Caracter\'istica ISO} & \textbf{Justificaci\'on}\\
+			\midrule
+			\textbf{RNF-01} & El sistema deber\'a responder al menos el \textbf{95\,\% de las consultas de t\'itulos de cr\'edito en 3 segundos o menos} cuando operen 100 usuarios virtuales concurrentes durante 30 minutos sobre una base de 25\,000 predios, con el fin de mantener la capacidad de respuesta en periodos de alta demanda. & Eficiencia de desempe\~no & El percentil 95 cuantifica el tiempo de respuesta con una carga dimensionada para el cant\'on.\\
+			\addlinespace[3pt]
+			\textbf{RNF-02} & El sistema deber\'a mantener una \textbf{disponibilidad de al menos el 99,5\,\%} para la consulta predial cuando sea supervisada durante 30 d\'ias mediante una solicitud sint\'etica cada 60 segundos desde una red externa con el servicio catastral operativo, con el fin de sostener el acceso a la informaci\'on tributaria. & Fiabilidad & La disponibilidad porcentual mide la continuidad operativa de una funci\'on cr\'itica.\\
+			\addlinespace[3pt]
+			\textbf{RNF-03} & El sistema deber\'a denegar el \textbf{100\,\% de 200 solicitudes de acceso a comprobantes sin permiso} cuando se pruebe una matriz de autorizaci\'on con cuentas y predios precargados en homologaci\'on, con el fin de preservar la confidencialidad de los datos tributarios. & Seguridad & La tasa de denegaci\'on eval\'ua el control de acceso a documentos personales.\\
+			\addlinespace[3pt]
+			\textbf{RNF-04} & El sistema deber\'a permitir que \textbf{al menos el 90\,\% de 20 ciudadanos sin experiencia previa complete una consulta de deuda en 120 segundos o menos} cuando usen sin asistencia un tel\'efono Android 12 de pantalla de 6 pulgadas con conexi\'on estable de 10 Mb/s, con el fin de facilitar el autoservicio. & Capacidad de interacci\'on & La finalizaci\'on de una tarea en tiempo l\'imite cuantifica la interacci\'on efectiva.\\
+			\addlinespace[3pt]
+			\textbf{RNF-05} & El sistema deber\'a interpretar correctamente el \textbf{100\,\% de 50 respuestas v\'alidas de autorizaci\'on tributaria} cuando se prueben en homologaci\'on contra el contrato de interfaz habilitado del SRI, con el fin de asegurar la interoperabilidad del intercambio. & Compatibilidad & La conformidad con un esquema externo permite evaluar la interoperabilidad de datos.\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\section{Restricciones y dependencias}
+	\subsection{Restricciones}
+	\noindent\textbf{R-01 (RF-01, RF-02).} Los datos maestros de predios y t\'itulos, junto con las reglas de c\'alculo, proceder\'an de los sistemas y par\'ametros aprobados por el GAD. \emph{Justificaci\'on:} evita que el portal p\'ublico establezca unilateralmente obligaciones tributarias.
+	
+	\noindent\textbf{R-02 (RF-03, RNF-03).} El pago utilizar\'a la API de la pasarela local contratada y su modalidad alojada; el sistema municipal no almacenar\'a datos completos de tarjetas. \emph{Justificaci\'on:} limita el alcance de informaci\'on financiera sensible y reduce costos de operaci\'on.
+	
+	\noindent\textbf{R-03 (RF-04, RF-05, RNF-05).} La integraci\'on con el SRI se aplicar\'a exclusivamente a tipos de comprobante y servicios formalmente habilitados para el GAD. \emph{Justificaci\'on:} un recibo de pago predial no se presume equivalente a un comprobante tributario autorizable por el SRI \cite{sriFacturacion}.
+	
+	\subsection{Dependencias}
+	\noindent\textbf{D-01 (RF-03 $\leftarrow$ RF-02).} RF-03 depende del importe liquidado por RF-02. \emph{Justificaci\'on:} la solicitud a la pasarela requiere un monto definido conforme a los par\'ametros del GAD.
+	
+	\noindent\textbf{D-02 (RF-05 $\leftarrow$ RF-04).} RF-05 depende de la existencia del comprobante electr\'onico asociado al pago de RF-04, cuando sea tributariamente reportable. \emph{Justificaci\'on:} la conciliaci\'on exige identificar el documento emitido y relacionarlo con la respuesta del SRI.
+	
+	\section{Matriz de verificaci\'on de requisitos no funcionales}
+	\begin{center}
+		\centering
+		\fontsize{7.5}{9.25}\selectfont
+		\setlength{\tabcolsep}{2.7pt}
+		\begin{tabularx}{\textwidth}{@{}p{0.8cm}p{2.35cm}p{1.2cm}p{1.0cm}Y p{1.25cm}p{2.8cm}@{}}
+			\toprule
+			\textbf{ID} & \textbf{M\'etrica} & \textbf{Umbral} & \textbf{Unidad} & \textbf{Condiciones de medici\'on} & \textbf{M\'etodo} & \textbf{Herramienta / procedimiento}\\
+			\midrule
+			\textbf{RNF-01} & Percentil 95 del tiempo de respuesta. & $\leq 3$ & s & 100 usuarios concurrentes; 30 min; 25\,000 predios; consultas v\'alidas y respuestas comprobadas. & Prueba & Apache JMeter: plan de carga y reporte p95.\\
+			\addlinespace[3pt]
+			\textbf{RNF-02} & Consultas sint\'eticas exitosas / consultas programadas $\times 100$. & $\geq 99{,}5$ & \% & 30 d\'ias; sonda externa cada 60 s; origen catastral operativo; HTTP y contenido validados. & An\'alisis & Uptime Kuma: hist\'orico de sondas y c\'alculo de disponibilidad.\\
+			\addlinespace[3pt]
+			\textbf{RNF-03} & Solicitudes indebidas denegadas / 200 $\times 100$. & $= 100$ & \% & 200 accesos no autorizados; identidades, permisos y predios de prueba conocidos. & Prueba & Postman/Newman: verificar denegaci\'on y ausencia de contenido.\\
+			\addlinespace[3pt]
+			\textbf{RNF-04} & Participantes que concluyen la consulta en $\leq 120$ s / 20 $\times 100$. & $\geq 90$ & \% & 20 ciudadanos sin experiencia; un predio de prueba por persona; Android 12, 6 pulgadas, 10 Mb/s; sin ayuda. & Prueba & Cron\'ometro y fichas de observaci\'on; m\'inimo 18 de 20.\\
+			\addlinespace[3pt]
+			\textbf{RNF-05} & Respuestas del SRI interpretadas conforme al contrato / 50 $\times 100$. & $= 100$ & \% & 50 respuestas v\'alidas y casos de autorizaci\'on/rechazo; interfaz simulada seg\'un contrato en homologaci\'on. & Prueba & SoapUI: mensajes XML de prueba y aserciones de estado.\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\noindent\textbf{Justificaci\'on de umbrales.} Los 100 usuarios concurrentes y 25\,000 predios representan una prueba de pico acotada; 3 s en el percentil 95 es un objetivo compatible con infraestructura moderada. Una disponibilidad del 99,5\,\% durante 30 d\'ias tolera hasta 216 minutos de indisponibilidad. En las pruebas de acceso y de protocolo se exige el 100\,\% por tratarse de casos deterministas; el 90\,\% de participaci\'on exitosa equivale a 18 de 20 participantes sin asistencia.
+	
 	\section{Referencias}
 	\printbibliography[heading=none]
 	
