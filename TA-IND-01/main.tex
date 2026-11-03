@@ -1,6 +1,10 @@
 % ===============================================================
 % TAREA AUTONOMA No. 1 - INGENIERIA DE REQUISITOS (UTEQ)
-% Archivo: main.tex (Commit 1: Estructura base, stakeholders y RF)
+% Archivo: Especificacion_Requisitos_Prediales_UTEQ.txt
+% Para Overleaf: guardar o renombrar este archivo como main.tex.
+% Colocar en la misma carpeta: referencias_prediales.bib
+% Compilacion: pdfLaTeX -> Biber -> pdfLaTeX -> pdfLaTeX
+% Documento principal: main.pdf.
 % ===============================================================
 \documentclass[conference]{IEEEtran}
 
@@ -33,7 +37,8 @@
 \title{Especificaci\'on de requisitos para un sistema de\\cobro de impuestos prediales en l\'inea}
 
 \author{
-	\IEEEauthorblockN{Jos\'e Ignacio Gilces Carranza}
+	\IEEEauthorblockN{Grupo 01: Jos\'e Ignacio Gilces Carranza, Danela Dayana Arteaga \'Alava,\\
+		Winston Dami\'an Cede\~no \'Avila, Allan Jeremy Mendoza Palma}
 	\IEEEauthorblockA{Universidad T\'ecnica Estatal de Quevedo (UTEQ) --- Facultad de Ciencias de la Computaci\'on\\
 		Ingenier\'ia de Software $\cdot$ Ingenier\'ia de Requisitos (ISR-401) $\cdot$ Tarea aut\'onoma n.\textsuperscript{o} 1}
 }
@@ -43,11 +48,11 @@
 	\maketitle
 	
 	\begin{abstract}
-		Se presenta la fase inicial de especificaci\'on de requisitos para un sistema
-		municipal de recaudaci\'on predial en l\'inea, adoptando los lineamientos
-		de redacci\'on de la norma ISO/IEC/IEEE 29148:2018 \cite{iso29148}. Se delimita
-		el universo de trabajo a 25\,000 predios catastrados y se identifican las partes
-		interesadas del proceso tributario local.
+		Se especifican cinco requisitos funcionales y cinco no funcionales para un sistema
+		municipal de recaudaci\'on predial en l\'inea, mediante criterios de redacci\'on
+		de ISO/IEC/IEEE 29148:2018 y caracter\'isticas de calidad de ISO/IEC 25010:2023
+		\cite{iso29148,iso25010}. Los umbrales son objetivos acad\'emicos de aceptaci\'on,
+		no cifras oficiales. El alcance considera aproximadamente 25\,000 predios.
 	\end{abstract}
 	
 	\section{Stakeholders y necesidades preliminares}
@@ -140,7 +145,31 @@
 	
 	\noindent\textbf{Justificaci\'on de umbrales.} Los 100 usuarios concurrentes y 25\,000 predios representan una prueba de pico acotada; 3 s en el percentil 95 es un objetivo compatible con infraestructura moderada. Una disponibilidad del 99,5\,\% durante 30 d\'ias tolera hasta 216 minutos de indisponibilidad. En las pruebas de acceso y de protocolo se exige el 100\,\% por tratarse de casos deterministas; el 90\,\% de participaci\'on exitosa equivale a 18 de 20 participantes sin asistencia.
 	
+	\section{Suposiciones}
+	\begin{enumerate}
+		\item El cant\'on dispone de 60\,000 habitantes, aproximadamente 25\,000 predios y mayor demanda en periodos de descuentos y vencimientos de inicio de a\~no.
+		\item El GAD proporciona t\'itulos de cr\'edito vigentes, asociaci\'on predio-contribuyente y par\'ametros aprobados de liquidaci\'on; el usuario accede con identidad validada.
+		\item La pasarela entrega confirmaciones \`unicas de cobro y un ambiente de pruebas mediante un contrato de integraci\'on vigente.
+		\item El intercambio con el SRI se limita a los comprobantes tributarios aplicables y a una interfaz autorizada; el SRI no concilia los fondos prediales municipales.
+		\item Se dispone de ambientes de homologaci\'on y registros de medici\'on; la disponibilidad se verifica durante un piloto de 30 d\'ias.
+	\end{enumerate}
+	
+	\section{Conclusiones}
+	\begin{enumerate}
+		\item La aplicaci\'on rigurosa de la sintaxis can\'onica de la norma ISO/IEC/IEEE 29148:2018 permiti\'o eliminar ambig\"uedades operativas en la especificaci\'on de los requisitos funcionales, asegurando una separaci\'on clara entre el comportamiento esperado del sistema municipal y las responsabilidades delegadas a servicios externos (pasarela de cobros e interfaz del SRI).
+		\item La cuantificaci\'on de los requisitos no funcionales bajo el modelo ISO/IEC 25010:2023 posibilit\'o definir condiciones de aceptaci\'on verificables mediante m\'etricas e instrumentos reproducibles (Apache JMeter, Postman, SoapUI y Uptime Kuma), evitando criterios subjetivos y alineando la capacidad del software con la realidad operativa de un cant\'on de 25\,000 predios.
+		\item El an\'alisis de dependencias y restricciones t\'ecnico-legales formaliz\'o los l\'imites del sistema: preserv\'o la soberan\'ia del catastro institucional como \'unica fuente de c\'alculo tributario y redujo el riesgo operacional y de cumplimiento delegando la captura de datos financieros en una pasarela alojada conforme a est\'andares de la industria.
+	\end{enumerate}
+	
 	\section{Referencias}
 	\printbibliography[heading=none]
+	
+	\section*{Declaraci\'on de uso de Inteligencia Artificial}
+	En cumplimiento de las normas de integridad acad\'emica y pol\'iticas de evaluaci\'on de la asignatura:
+	\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt]
+		\item \textbf{Herramientas empleadas:} Gemini (Google) y ChatGPT (OpenAI).
+		\item \textbf{Prop\'osito del uso:} Asistencia auxiliar en la estructuraci\'on de plantillas y c\'odigo \LaTeX{} (formateo y alineaci\'on de tablas en \texttt{tabularx}), correcci\'on de estilo tipogr\'afico y revisi\'on ortogr\'afica de la documentaci\'on t\'ecnica.
+		\item \textbf{M\'etodo de verificaci\'on humana:} Los integrantes del equipo redactaron, analizaron, estructuraron y validaron de manera aut\'onoma todos los requisitos funcionales y no funcionales, sus umbrales cuantitativos, condiciones de prueba, reglas de negocio del caso del GAD cantonal y la correspondencia f\'isica y bibliogr\'afica de las fuentes oficiales citadas (\cite{iso29148}, \cite{iso25010} y \cite{sriFacturacion}).
+	\end{itemize}
 	
 \end{document}
