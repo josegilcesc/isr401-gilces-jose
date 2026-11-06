@@ -1,0 +1,100 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% Gestión bibliográfica mediante biblatex y archivo referencias.bib
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
+\addbibresource{referencias.bib}
+
+\setlength{\parindent}{0.65em}
+\setlength{\parskip}{1pt}
+\renewcommand{\arraystretch}{1.15}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\DefineBibliographyStrings{spanish}{bibliography={Referencias}}
+\urlstyle{same}
+
+\title{Taller de Identificaci\'on y Clasificaci\'on de Tipos de Requisitos:\\Caso Plataforma de Gesti\'on de Citas M\'edicas}
+
+\author{
+	\IEEEauthorblockN{Jos\'e Ignacio Gilces Carranza}
+	\IEEEauthorblockA{Universidad T\'ecnica Estatal de Quevedo (UTEQ) --- Facultad de Ciencias de la Computaci\'on\\
+		Ingenier\'ia de Software $\cdot$ Ingenier\'ia de Requisitos (ISR-401) $\cdot$ Actividad Formativa FORM-TL-01}
+}
+
+\begin{document}
+	\onecolumn
+	\maketitle
+	
+	\begin{abstract}
+		En este informe se presenta el desarrollo formal de la actividad FORM-TL-01, enfocada en la clasificaci\'on tridimensional (tipo de requisito e ISO/IEC 25010:2023, \'ambito producto/proceso y frontera sistema/software) de los 20 enunciados del caso Policl\'inico Ribera del Quevedo.
+	\end{abstract}
+	
+	\section{Contexto del Sistema y Stakeholders}
+	El Policl\'inico Ribera del Quevedo atiende a 12\,000 pacientes registrados con un promedio de 450 citas diarias en 9 especialidades. La saturaci\'on telef\'onica y el ausentismo del 22\,\% exigen una plataforma web y m\'ovil integrada a un quiosco de autoservicio y al sistema de facturaci\'on preexistente.
+	
+	\begin{center}
+		\footnotesize
+		\begin{tabularx}{\textwidth}{@{}p{3.2cm}p{3.8cm}Y@{}}
+			\toprule
+			\textbf{Stakeholder} & \textbf{Rol en el Policl\'inico} & \textbf{Necesidad preliminar de elicitaci\'on}\\
+			\midrule
+			Pacientes y familiares & Usuarios finales del portal/m\'ovil & Reservar, reprogramar o cancelar citas sin filas y recibir recordatorios por SMS/correo.\\
+			Recepcionistas & Operadores de ventanilla & Registrar la llegada presencial, reducir la transcripci\'on manual y atender sin saturaci\'on.\\
+			M\'edicos especialistas & Usuarios del m\'odulo m\'edico & Consultar el flujo diario de pacientes en consultorio y marcar atenciones realizadas.\\
+			Director M\'edico & Gestor operativo y patrocinador & Reducir el ausentismo del 22\,\%, optimizar horarios y obtener reportes de inasistencias.\\
+			Administrador & Gestor de configuraci\'on & Gestionar cat\'alogo de m\'edicos, especialidades, feriados y supervisar el flujo de cobros.\\
+			\'Area de TI (2 personas) & Custodios de infraestructura & Mantener el sistema sobre Java 21 y PostgreSQL con alta disponibilidad.\\
+			Proveedor de Facturaci\'on & Entidad externa de integraci\'on & Proveer la interfaz de servicios web para autorizar e intercambiar cobros.\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\section{Clasificaci\'on Tridimensional de Requisitos}
+	Se clasifican los 20 enunciados del sistema (E01 a E20) conforme a tres dimensiones: (1) Tipo de requisito e ISO/IEC 25010:2023 \cite{iso25010}, (2) \'Ambito (Producto vs. Proceso) y (3) Frontera (Sistema vs. Software) \cite{pohl2025,iso29148}.
+	
+	\begin{center}
+		\scriptsize
+		\setlength{\tabcolsep}{3pt}
+		\begin{tabularx}{\textwidth}{@{}p{0.6cm}p{3.6cm}p{3.4cm}p{1.4cm}p{1.4cm}Y@{}}
+			\toprule
+			\textbf{ID} & \textbf{Enunciado del Caso} & \textbf{Tipo / ISO 25010} & \textbf{\'Ambito} & \textbf{Frontera} & \textbf{Justificaci\'on T\'ecnica}\\
+			\midrule
+			E01 & Reserva de cita por especialidad, m\'edico, fecha y hora. & Funcional & Producto & Software & Especifica una funci\'on directa de interacci\'on del paciente con el sistema.\\
+			E02 & Env\'io de recordatorio SMS 24 horas antes de la cita. & Funcional & Producto & Software & Comportamiento aut\'onomo del software ante un evento temporal programado.\\
+			E03 & La aplicaci\'on debe ser r\'apida. & Calidad (Eficiencia de desempe\~no) & Producto & Software & Atributo de calidad del software: requiere cuantificaci\'on de tiempos de respuesta.\\
+			E04 & Registro de llegada del paciente en ventanilla por recepcionista. & Funcional & Producto & Software & Funci\'on operativa asignada al rol recepcionista en la interfaz.\\
+			E05 & Desarrollo en Java 21 con base de datos PostgreSQL. & Restricci\'on (T\'ecnica / Stack) & Producto & Software & Limita las decisiones de arquitectura al stack dominado por TI.\\
+			E06 & Consulta de pacientes del d\'ia y marcado de atenci\'on por m\'edico. & Funcional & Producto & Software & Funci\'on de gesti\'on de flujo de atenci\'on en el consultorio m\'edico.\\
+			E07 & Los datos de salud de los pacientes deben estar seguros. & Calidad (Seguridad / Confidencialidad) & Producto & Software & Exige mecanismos de protecci\'on de datos sensibles en el software.\\
+			E08 & Funcionamiento en Android 10 o superior. & Restricci\'on (Entorno operativo) & Producto & Software & Condici\'on de compatibilidad de ejecuci\'on sobre el SO m\'ovil.\\
+			E09 & Cancelaci\'on con $<$ 4h se registra como inasistencia. & Restricci\'on (Regla de negocio) & Producto & Sistema & Regla institucional del policl\'inico que gobierna la l\'ogica del servicio.\\
+			E10 & F\'acil de usar para pacientes adultos mayores. & Calidad (Usabilidad / Operabilidad) & Producto & Software & Caracter\'istica de interacci\'on y accesibilidad enfocada en el usuario final.\\
+			E11 & Entrega del proyecto en un plazo m\'aximo de 6 meses. & Restricci\'on (Proyecto / Gesti\'on) & Proceso & Sistema & L\'imite temporal que condiciona el ciclo de vida del desarrollo.\\
+			E12 & Cierre de sesi\'on autom\'atico tras 10 min de inactividad. & Restricci\'on (Regla de seguridad) & Producto & Software & Mecanismo de control de sesi\'on para prevenir accesos no autorizados.\\
+			E13 & Lectura de c\'edula en pantalla e impresi\'on de ticket en quiosco. & Funcional & Producto & Sistema & Involucra hardware (pantalla/impresora), firmware y software del quiosco.\\
+			E14 & La plataforma debe estar siempre disponible. & Calidad (Fiabilidad / Disponibilidad) & Producto & Software & M\'etrica de continuidad operativa del servicio web/m\'ovil.\\
+			E15 & Generaci\'on de reporte mensual de inasistencias por especialidad. & Funcional & Producto & Software & Funci\'on de procesamiento anal\'itico de datos para la direcci\'on m\'edica.\\
+			E16 & Validaci\'on de incrementos con Director M\'edico cada 2 semanas. & Restricci\'on (Metodol\'ogica) & Proceso & Sistema & Define el marco de revisi\'on y aceptaci\'on en el proceso de desarrollo.\\
+			E17 & Cumplimiento de la Ley Org\'anica de Protecci\'on de Datos (LOPDP). & Restricci\'on (Legal / Regulatoria) & Producto & Sistema & Marco normativo nacional de obligatorio cumplimiento.\\
+			E18 & Integraci\'on sin problemas con el sistema de facturaci\'on actual. & Calidad (Compatibilidad / Interoperabilidad) & Producto & Software & Capacidad del software para intercambiar datos con el sistema externo.\\
+			E19 & Restablecimiento en $<$ 30 min sin p\'erdida tras fallo de servidor. & Calidad (Fiabilidad / Recuperabilidad) & Producto & Software & Especifica el RTO ($<$30 min) y RPO (0 p\'erdidas) ante contingencias.\\
+			E20 & Revisi\'on de c\'odigo por pares antes de integrar en rama principal. & Restricci\'on (Calidad de proceso) & Proceso & Software & Pr\'actica obligatoria de aseguramiento de calidad en el repositorio Git.\\
+			\bottomrule
+		\end{tabularx}
+	\end{center}
+	
+	\section{Referencias}
+	\printbibliography[heading=none]
+	
+\end{document}
