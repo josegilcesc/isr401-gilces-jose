@@ -1,18 +1,9 @@
-% ===============================================================
-% TAREA AUTONOMA No. 1 - INGENIERIA DE REQUISITOS (UTEQ)
-% Archivo: Especificacion_Requisitos_Prediales_UTEQ.txt
-% Para Overleaf: guardar o renombrar este archivo como main.tex.
-% Colocar en la misma carpeta: referencias_prediales.bib
-% Compilacion: pdfLaTeX -> Biber -> pdfLaTeX -> pdfLaTeX
-% Documento principal: main.pdf.
-% ===============================================================
 \documentclass[conference]{IEEEtran}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish,es-tabla]{babel}
 \usepackage{lmodern}
-\usepackage{microtype}
 \usepackage{csquotes}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -25,22 +16,22 @@
 
 \usepackage{enumitem}
 \setlist[enumerate]{leftmargin=*,itemsep=1pt,topsep=2pt}
+\setlist[itemize]{leftmargin=*,itemsep=1pt,topsep=2pt}
 \setlength{\parindent}{0.65em}
 \setlength{\parskip}{1pt}
 \setlength{\columnsep}{0.24in}
-\renewcommand{\arraystretch}{1.16}
+\renewcommand{\arraystretch}{1.15}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newcommand{\req}[1]{\noindent\textbf{#1:}\enspace}
 \DefineBibliographyStrings{spanish}{bibliography={Referencias}}
 \urlstyle{same}
 
-\title{Especificaci\'on de requisitos para un sistema de\\cobro de impuestos prediales en l\'inea}
+\title{Especificación y Análisis de Requisitos de Software bajo ISO/IEC/IEEE 29148:2018 y Modelo ISO/IEC 25010:2023:\\Caso Sistema de Gestión Académica (SGA) de la UTEQ}
 
 \author{
-	\IEEEauthorblockN{Grupo 01: Jos\'e Ignacio Gilces Carranza, Danela Dayana Arteaga \'Alava,\\
-		Winston Dami\'an Cede\~no \'Avila, Allan Jeremy Mendoza Palma}
-	\IEEEauthorblockA{Universidad T\'ecnica Estatal de Quevedo (UTEQ) --- Facultad de Ciencias de la Computaci\'on\\
-		Ingenier\'ia de Software $\cdot$ Ingenier\'ia de Requisitos (ISR-401) $\cdot$ Tarea aut\'onoma n.\textsuperscript{o} 1}
+	\IEEEauthorblockN{José Ignacio Gilces Carranza}
+	\IEEEauthorblockA{Universidad Técnica Estatal de Quevedo (UTEQ) --- Facultad de Ciencias de la Computación\\
+		Ingeniería de Software $\cdot$ Ingeniería de Requerimientos (ISR-401) $\cdot$ Trabajo Autónomo Individual TA-IND-01}
 }
 
 \begin{document}
@@ -48,128 +39,89 @@
 	\maketitle
 	
 	\begin{abstract}
-		Se especifican cinco requisitos funcionales y cinco no funcionales para un sistema
-		municipal de recaudaci\'on predial en l\'inea, mediante criterios de redacci\'on
-		de ISO/IEC/IEEE 29148:2018 y caracter\'isticas de calidad de ISO/IEC 25010:2023
-		\cite{iso29148,iso25010}. Los umbrales son objetivos acad\'emicos de aceptaci\'on,
-		no cifras oficiales. El alcance considera aproximadamente 25\,000 predios.
+		En este informe se presenta el avance inicial del trabajo autónomo individual \texttt{TA-IND-01}, enfocado en la aplicación rigurosa del estándar ISO/IEC/IEEE 29148:2018 sobre el Sistema de Gestión Académica (SGA) de la Universidad Técnica Estatal de Quevedo (UTEQ). Se elabora la descripción del entorno operativo institucional, un resumen analítico de las cláusulas normativas 5.2.4, 5.2.5, 5.2.6 y 5.2.7, y un glosario de diez términos técnicos contextualizados a las operaciones académicas universitarias.
 	\end{abstract}
 	
-	\section{Stakeholders y necesidades preliminares}
-	\begin{center}
-		\centering
-		\footnotesize
-		\begin{tabularx}{\textwidth}{@{}p{3.15cm}p{3.1cm}Y@{}}
-			\toprule
-			\textbf{Stakeholder} & \textbf{Rol} & \textbf{Necesidad preliminar}\\
-			\midrule
-			Contribuyente & Usuario del portal & Consultar obligaciones de sus predios, pagar el valor exigible y obtener constancia.\\
-			Direcci\'on Financiera del GAD & Responsable de recaudaci\'on & Verificar t\'itulos, cobros confirmados y diferencias pendientes de revisi\'on.\\
-			Unidad de Catastro y Rentas & Custodio de datos de predios y t\'itulos & Proporcionar claves catastrales, titularidades, saldos y par\'ametros de c\'alculo vigentes.\\
-			Proveedor local de pasarela & Prestador de pagos & Recibir solicitudes de cobro y devolver confirmaciones identificables por transacci\'on.\\
-			Servicio de Rentas Internas (SRI) & Entidad tributaria externa & Devolver estados de autorizaci\'on \`unicamente para documentos sujetos al esquema tributario habilitado.\\
-			\bottomrule
-		\end{tabularx}
-	\end{center}
+	\section{Descripción del Sistema Elegido: SGA UTEQ}
+	\noindent\textbf{Propósito del sistema.} El Sistema de Gestión Académica (SGA) de la Universidad Técnica Estatal de Quevedo (UTEQ) es la plataforma tecnológica central encargada de automatizar y controlar los procesos operativos, administrativos y pedagógicos de la institución. Su objetivo primario es garantizar la continuidad de los servicios educativos mediante la administración de matrículas, registro de calificaciones, control de asistencia, seguimiento del sílabo institucional y gestión de actas académicas.
 	
-	\section{Requisitos funcionales}
-	\req{RF-01} El sistema deber\'a mostrar el detalle de los t\'itulos de cr\'edito pendientes del predio seleccionado cuando el contribuyente autenticado solicite la consulta, con el fin de identificar sus obligaciones prediales.
+	\noindent\textbf{Usuarios e interesados.} El sistema atiende a una comunidad heterogénea compuesta por más de 12\,000 estudiantes de pregrado y posgrado, 500 docentes titulares y ocasionales, directores de carrera, decanos de facultad, personal de Servicios Académicos y la Dirección de Tecnología de la Información (TI UTEQ).
 	
-	\req{RF-02} El sistema deber\'a calcular el importe exigible de un t\'itulo de cr\'edito con los par\'ametros vigentes del GAD para intereses y recargos cuando el contribuyente solicite su liquidaci\'on a una fecha de corte, con el fin de determinar el monto a cobrar.
+	\noindent\textbf{Contexto operativo.} El SGA opera bajo una arquitectura web cliente-servidor accesible desde navegadores estándar y dispositivos móviles. Se encuentra integrado con la base de datos relacional universitaria y los servicios de autenticación institucional. El entorno enfrenta picos críticos de demanda operativa durante dos momentos lectivos específicos: el período de matriculación bimensual y la semana de digitación de calificaciones finales, donde la concurrencia simultánea alcanza hasta 2\,500 usuarios activos.
 	
-	\req{RF-03} El sistema deber\'a procesar el pago en l\'inea del importe exigible de un t\'itulo de cr\'edito mediante la pasarela local contratada cuando el contribuyente confirme la operaci\'on, con el fin de cancelar la obligaci\'on tras la aprobaci\'on de la pasarela.
+	\section{Resumen Analítico del Estándar ISO/IEC/IEEE 29148:2018}
+	El estándar internacional ISO/IEC/IEEE 29148:2018 establece los procesos y criterios normativos para la ingeniería de requisitos en el ciclo de vida del software \cite{ieee29148}. A diferencia de enfoques descriptivos informales, la norma formaliza la construcción sintáctica y semántica de las declaraciones de requisitos para eliminar la ambigüedad en la transferencia entre partes interesadas y desarrolladores \cite{pohl2025}.
 	
-	\req{RF-04} El sistema deber\'a emitir un comprobante electr\'onico municipal del pago cuando reciba su confirmaci\'on definitiva de la pasarela, con el fin de acreditar la cancelaci\'on del t\'itulo de cr\'edito.
+	\subsection{Estructura de un Requisito Bien Formado (Cláusula 5.2.4)}
+	La cláusula 5.2.4 define la estructura gramatical obligatoria para redactar un requisito individual inambiguo. La norma estipula que cada enunciado debe configurarse mediante un patrón imperativo estricto \cite{ieee29148}:
+	\begin{equation}
+		\text{[Sujeto/Sistema]} + \text{[Verbo modal de obligación]} + \text{[Acción/Comportamiento]} + \text{[Objeto/Resultado]} + \text{[Condición/Gatillo]} + \text{[Propósito]}
+	\end{equation}
+	El uso del verbo modal \emph{shall} (traducido canónicamente como \emph{deberá}) es la única forma aceptada para denotar una obligación vinculante de cumplimiento obligatorio. Los términos \emph{should} (\emph{debería}) denotan recomendaciones no vinculantes, mientras que \emph{may} (\emph{podrá}) indica permisos opcionales, quedando prohibidos para la declaración formal de líneas base de requisitos.
 	
-	\req{RF-05} El sistema deber\'a conciliar por clave de acceso el estado de cada comprobante sujeto a autorizaci\'on tributaria asociado a un pago confirmado con el acuse de la interfaz habilitada del SRI cuando se ejecute el cierre diario, con el fin de identificar discrepancias de estado.
-	
-	\section{Requisitos no funcionales y clasificaci\'on ISO/IEC 25010:2023}
-	La clasificaci\'on utiliza cinco caracter\'isticas distintas del modelo de calidad
-	de producto \cite{iso25010}.
-	
-	\begin{center}
-		\centering
-		\scriptsize
-		\setlength{\tabcolsep}{3pt}
-		\begin{tabularx}{\textwidth}{@{}p{0.95cm}Y p{2.45cm} p{2.65cm}@{}}
-			\toprule
-			\textbf{ID} & \textbf{Requisito} & \textbf{Caracter\'istica ISO} & \textbf{Justificaci\'on}\\
-			\midrule
-			\textbf{RNF-01} & El sistema deber\'a responder al menos el \textbf{95\,\% de las consultas de t\'itulos de cr\'edito en 3 segundos o menos} cuando operen 100 usuarios virtuales concurrentes durante 30 minutos sobre una base de 25\,000 predios, con el fin de mantener la capacidad de respuesta en periodos de alta demanda. & Eficiencia de desempe\~no & El percentil 95 cuantifica el tiempo de respuesta con una carga dimensionada para el cant\'on.\\
-			\addlinespace[3pt]
-			\textbf{RNF-02} & El sistema deber\'a mantener una \textbf{disponibilidad de al menos el 99,5\,\%} para la consulta predial cuando sea supervisada durante 30 d\'ias mediante una solicitud sint\'etica cada 60 segundos desde una red externa con el servicio catastral operativo, con el fin de sostener el acceso a la informaci\'on tributaria. & Fiabilidad & La disponibilidad porcentual mide la continuidad operativa de una funci\'on cr\'itica.\\
-			\addlinespace[3pt]
-			\textbf{RNF-03} & El sistema deber\'a denegar el \textbf{100\,\% de 200 solicitudes de acceso a comprobantes sin permiso} cuando se pruebe una matriz de autorizaci\'on con cuentas y predios precargados en homologaci\'on, con el fin de preservar la confidencialidad de los datos tributarios. & Seguridad & La tasa de denegaci\'on eval\'ua el control de acceso a documentos personales.\\
-			\addlinespace[3pt]
-			\textbf{RNF-04} & El sistema deber\'a permitir que \textbf{al menos el 90\,\% de 20 ciudadanos sin experiencia previa complete una consulta de deuda en 120 segundos o menos} cuando usen sin asistencia un tel\'efono Android 12 de pantalla de 6 pulgadas con conexi\'on estable de 10 Mb/s, con el fin de facilitar el autoservicio. & Capacidad de interacci\'on & La finalizaci\'on de una tarea en tiempo l\'imite cuantifica la interacci\'on efectiva.\\
-			\addlinespace[3pt]
-			\textbf{RNF-05} & El sistema deber\'a interpretar correctamente el \textbf{100\,\% de 50 respuestas v\'alidas de autorizaci\'on tributaria} cuando se prueben en homologaci\'on contra el contrato de interfaz habilitado del SRI, con el fin de asegurar la interoperabilidad del intercambio. & Compatibilidad & La conformidad con un esquema externo permite evaluar la interoperabilidad de datos.\\
-			\bottomrule
-		\end{tabularx}
-	\end{center}
-	
-	\section{Restricciones y dependencias}
-	\subsection{Restricciones}
-	\noindent\textbf{R-01 (RF-01, RF-02).} Los datos maestros de predios y t\'itulos, junto con las reglas de c\'alculo, proceder\'an de los sistemas y par\'ametros aprobados por el GAD. \emph{Justificaci\'on:} evita que el portal p\'ublico establezca unilateralmente obligaciones tributarias.
-	
-	\noindent\textbf{R-02 (RF-03, RNF-03).} El pago utilizar\'a la API de la pasarela local contratada y su modalidad alojada; el sistema municipal no almacenar\'a datos completos de tarjetas. \emph{Justificaci\'on:} limita el alcance de informaci\'on financiera sensible y reduce costos de operaci\'on.
-	
-	\noindent\textbf{R-03 (RF-04, RF-05, RNF-05).} La integraci\'on con el SRI se aplicar\'a exclusivamente a tipos de comprobante y servicios formalmente habilitados para el GAD. \emph{Justificaci\'on:} un recibo de pago predial no se presume equivalente a un comprobante tributario autorizable por el SRI \cite{sriFacturacion}.
-	
-	\subsection{Dependencias}
-	\noindent\textbf{D-01 (RF-03 $\leftarrow$ RF-02).} RF-03 depende del importe liquidado por RF-02. \emph{Justificaci\'on:} la solicitud a la pasarela requiere un monto definido conforme a los par\'ametros del GAD.
-	
-	\noindent\textbf{D-02 (RF-05 $\leftarrow$ RF-04).} RF-05 depende de la existencia del comprobante electr\'onico asociado al pago de RF-04, cuando sea tributariamente reportable. \emph{Justificaci\'on:} la conciliaci\'on exige identificar el documento emitido y relacionarlo con la respuesta del SRI.
-	
-	\section{Matriz de verificaci\'on de requisitos no funcionales}
-	\begin{center}
-		\centering
-		\fontsize{7.5}{9.25}\selectfont
-		\setlength{\tabcolsep}{2.7pt}
-		\begin{tabularx}{\textwidth}{@{}p{0.8cm}p{2.35cm}p{1.2cm}p{1.0cm}Y p{1.25cm}p{2.8cm}@{}}
-			\toprule
-			\textbf{ID} & \textbf{M\'etrica} & \textbf{Umbral} & \textbf{Unidad} & \textbf{Condiciones de medici\'on} & \textbf{M\'etodo} & \textbf{Herramienta / procedimiento}\\
-			\midrule
-			\textbf{RNF-01} & Percentil 95 del tiempo de respuesta. & $\leq 3$ & s & 100 usuarios concurrentes; 30 min; 25\,000 predios; consultas v\'alidas y respuestas comprobadas. & Prueba & Apache JMeter: plan de carga y reporte p95.\\
-			\addlinespace[3pt]
-			\textbf{RNF-02} & Consultas sint\'eticas exitosas / consultas programadas $\times 100$. & $\geq 99{,}5$ & \% & 30 d\'ias; sonda externa cada 60 s; origen catastral operativo; HTTP y contenido validados. & An\'alisis & Uptime Kuma: hist\'orico de sondas y c\'alculo de disponibilidad.\\
-			\addlinespace[3pt]
-			\textbf{RNF-03} & Solicitudes indebidas denegadas / 200 $\times 100$. & $= 100$ & \% & 200 accesos no autorizados; identidades, permisos y predios de prueba conocidos. & Prueba & Postman/Newman: verificar denegaci\'on y ausencia de contenido.\\
-			\addlinespace[3pt]
-			\textbf{RNF-04} & Participantes que concluyen la consulta en $\leq 120$ s / 20 $\times 100$. & $\geq 90$ & \% & 20 ciudadanos sin experiencia; un predio de prueba por persona; Android 12, 6 pulgadas, 10 Mb/s; sin ayuda. & Prueba & Cron\'ometro y fichas de observaci\'on; m\'inimo 18 de 20.\\
-			\addlinespace[3pt]
-			\textbf{RNF-05} & Respuestas del SRI interpretadas conforme al contrato / 50 $\times 100$. & $= 100$ & \% & 50 respuestas v\'alidas y casos de autorizaci\'on/rechazo; interfaz simulada seg\'un contrato en homologaci\'on. & Prueba & SoapUI: mensajes XML de prueba y aserciones de estado.\\
-			\bottomrule
-		\end{tabularx}
-	\end{center}
-	
-	\noindent\textbf{Justificaci\'on de umbrales.} Los 100 usuarios concurrentes y 25\,000 predios representan una prueba de pico acotada; 3 s en el percentil 95 es un objetivo compatible con infraestructura moderada. Una disponibilidad del 99,5\,\% durante 30 d\'ias tolera hasta 216 minutos de indisponibilidad. En las pruebas de acceso y de protocolo se exige el 100\,\% por tratarse de casos deterministas; el 90\,\% de participaci\'on exitosa equivale a 18 de 20 participantes sin asistencia.
-	
-	\section{Suposiciones}
+	\subsection{Características de un Requisito Individual (Cláusula 5.2.5)}
+	La cláusula 5.2.5 evalúa la calidad intrínseca de cada enunciado mediante nueve propiedades individuales obligatorias \cite{ieee29148}:
 	\begin{enumerate}
-		\item El cant\'on dispone de 60\,000 habitantes, aproximadamente 25\,000 predios y mayor demanda en periodos de descuentos y vencimientos de inicio de a\~no.
-		\item El GAD proporciona t\'itulos de cr\'edito vigentes, asociaci\'on predio-contribuyente y par\'ametros aprobados de liquidaci\'on; el usuario accede con identidad validada.
-		\item La pasarela entrega confirmaciones \`unicas de cobro y un ambiente de pruebas mediante un contrato de integraci\'on vigente.
-		\item El intercambio con el SRI se limita a los comprobantes tributarios aplicables y a una interfaz autorizada; el SRI no concilia los fondos prediales municipales.
-		\item Se dispone de ambientes de homologaci\'on y registros de medici\'on; la disponibilidad se verifica durante un piloto de 30 d\'ias.
+		\item \textbf{Singular (\emph{Necessary/Singular}):} Expresa una única capacidad, condición o restricción del sistema, evitando conjunciones copulativas (``y'', ``además'') que oculten requisitos múltiples en un solo texto.
+		\item \textbf{Inambiguo / Claro (\emph{Unambiguous}):} Admite una sola interpretación técnica interpretable por evaluadores independientes sin ambigüedad léxica o sintáctica.
+		\item \textbf{Completo (\emph{Complete}):} Contiene toda la información necesaria para su desarrollo y pruebas sin requerir explicaciones verbales secundarias.
+		\item \textbf{Consistente (\emph{Consistent}):} No entra en contradicción con ningún otro requisito individual ni con las restricciones del proyecto.
+		\item \textbf{Lógico y Factible (\emph{Feasible}):} Es realizable técnicamente dentro de las restricciones de arquitectura, presupuesto y plazo asignados al proyecto.
+		\item \textbf{Verificable (\emph{Verifiable}):} Admite la definición de un método cuantitativo o prueba determinista (inspección, análisis, demostración o prueba de carga) para comprobar su cumplimiento final.
+		\item \textbf{Necesario (\emph{Necessary}):} Define una capacidad indispensable cuya omisión generaría un vacío funcional o un incumplimiento regulatorio directo.
+		\item \textbf{Libre de Diseño e Implementación (\emph{Implementation-Free}):} Declara la conducta externa que el sistema debe exhibir, sin prescribir arquitecturas internas, patrones de diseño o lenguajes de programación no fundamentados.
+		\item \textbf{Trazable (\emph{Traceable}):} Posee un identificador único que permite vincular el requisito con su fuente de origen (stakeholder) y con las pruebas de verificación posteriores.
 	\end{enumerate}
 	
-	\section{Conclusiones}
+	\subsection{Características del Conjunto de Requisitos (Cláusula 5.2.6)}
+	La cláusula 5.2.6 analiza la coherencia global de la especificación de requisitos (SRS) mediante cinco atributos colectivos: (1) \emph{Completitud del conjunto}, garantizando que se hayan cubierto todas las necesidades operativas; (2) \emph{Consistencia del conjunto}, asegurando la ausencia de conflictos entre requisitos funcionales y de calidad; (3) \emph{No redundancia}, evitando duplicaciones de enunciados con diferente redacción; (4) \emph{Priorización}, ponderando la relevancia de cada requisito para la gestión del alcance; y (5) \emph{Verificabilidad global} \cite{ieee29148, swebok2024}.
+	
+	\subsection{Criterios de Lenguaje y Términos Prohibidos (Cláusula 5.2.7)}
+	La cláusula 5.2.7 prohíbe explícitamente el uso de vocabulario vago, adjetivos calificativos no medibles y frases de alcance abierto en la redacción de especificaciones. La norma clasifica como errores graves de expresión los siguientes términos \cite{ieee29148}:
+	\begin{itemize}
+		\item \textbf{Cualitativos de velocidad o rendimiento:} ``rápido'', ``eficiente'', ``con baja latencia'', ``a la brevedad posible''.
+		\item \textbf{Subjetivos de usabilidad:} ``fácil de usar'', ``intuitivo'', ``amigable para el usuario'', ``interfaz atractiva''.
+		\item \textbf{Generalizaciones de robustez:} ``seguro'', ``robusto'', ``adecuado'', ``flexible'', ``de alta calidad''.
+		\item \textbf{Términos de ambigüedad de alcance:} ``incluyendo pero no limitado a'', ``etc.'', ``y así sucesivamente'', ``según sea necesario''.
+	\end{itemize}
+	Para sustituir estos términos prohibidos, la norma exige relacionar las propiedades de calidad con el modelo ISO/IEC 25010:2023 \cite{iso25010}, estableciendo métricas cuantitativas expresadas en unidades de medida reales (segundos, porcentajes de éxito, usuarios concurrentes o tasas de denegación).
+	
+	\section{Glosario Técnico de la Norma (Cláusula 3 de ISO/IEC/IEEE 29148:2018)}
+	Se definen diez términos clave seleccionados de la cláusula 3 de la norma, acompañados de su interpretación analítica y un ejemplo de aplicación directa sobre el Sistema de Gestión Académica (SGA) de la UTEQ:
+	
 	\begin{enumerate}
-		\item La aplicaci\'on rigurosa de la sintaxis can\'onica de la norma ISO/IEC/IEEE 29148:2018 permiti\'o eliminar ambig\"uedades operativas en la especificaci\'on de los requisitos funcionales, asegurando una separaci\'on clara entre el comportamiento esperado del sistema municipal y las responsabilidades delegadas a servicios externos (pasarela de cobros e interfaz del SRI).
-		\item La cuantificaci\'on de los requisitos no funcionales bajo el modelo ISO/IEC 25010:2023 posibilit\'o definir condiciones de aceptaci\'on verificables mediante m\'etricas e instrumentos reproducibles (Apache JMeter, Postman, SoapUI y Uptime Kuma), evitando criterios subjetivos y alineando la capacidad del software con la realidad operativa de un cant\'on de 25\,000 predios.
-		\item El an\'alisis de dependencias y restricciones t\'ecnico-legales formaliz\'o los l\'imites del sistema: preserv\'o la soberan\'ia del catastro institucional como \'unica fuente de c\'alculo tributario y redujo el riesgo operacional y de cumplimiento delegando la captura de datos financieros en una pasarela alojada conforme a est\'andares de la industria.
+		\item \textbf{Requisito (\emph{Requirement}) [cláusula 3.1.22]:} Condición o capacidad de software necesaria para que un usuario resuelva un problema o logre un objetivo operativo.  
+		\emph{Ejemplo SGA:} La capacidad del estudiante para consultar y descargar su historial de calificaciones consolidado en formato PDF.
+		
+		\item \textbf{Especificación de Requisitos de Software (\emph{Software Requirements Specification - SRS}) [cláusula 3.1.28]:} Documento formal que consolida la conducta funcional, las restricciones y los atributos de calidad de un producto de software.  
+		\emph{Ejemplo SGA:} El documento técnico que especifica los 15 requisitos formales del módulo de matrículas en línea de la UTEQ.
+		
+		\item \textbf{Elicitación de Requisitos (\emph{Requirements Elicitation}) [cláusula 3.1.23]:} Proceso continuo de descubrimiento, extracción y análisis de las necesidades no estructuradas de los interesados.  
+		\emph{Ejemplo SGA:} La ejecución de entrevistas con la Dirección de Servicios Académicos para identificar las reglas de prerrequisitos de asignatura.
+		
+		\item \textbf{Parte Interesada (\emph{Stakeholder}) [cláusula 3.1.29]:} Individuo u organización que puede afectar, verse afectado o percibirse afectado por las decisiones relativas al sistema.  
+		\emph{Ejemplo SGA:} Los docentes universitarios que deben registrar asistencia e hitos de evaluación periódica.
+		
+		\item \textbf{Trazabilidad de Requisitos (\emph{Requirements Traceability}) [cláusula 3.1.27]:} Capacidad para seguir la historia de un requisito mediante enlaces bidireccionales desde su origen hasta su implementación y pruebas.  
+		\emph{Ejemplo SGA:} La vinculación formal entre el requisito de validación de crédito presupuestario \textbf{RF-03} y la prueba automatizada de integración \textbf{T-12}.
+		
+		\item \textbf{Verificación (\emph{Verification}) [cláusula 3.1.33]:} Confirmación objetiva mediante la aportación de evidencia de que se han cumplido los requisitos especificados.  
+		\emph{Ejemplo SGA:} La ejecución de un script en Apache JMeter para comprobar que la página de ingreso responde en menos de 2,0 segundos \cite{jmeter}.
+		
+		\item \textbf{Validación (\emph{Validation}) [cláusula 3.1.32]:} Confirmación mediante evidencia objetiva de que el producto de software satisface las necesidades del usuario en su entorno operativo real.  
+		\emph{Ejemplo SGA:} La prueba de aceptación realizada con decanos para verificar la exactitud del reporte de actas de fin de módulo.
+		
+		\item \textbf{Restricción (\emph{Constraint}) [cláusula 3.1.8]:} Límite impuesto externamente sobre la solución de software que restringe las opciones de diseño o desarrollo.  
+		\emph{Ejemplo SGA:} La obligación legal de alojar los datos académicos dentro de servidores propios de la UTEQ bajo la Ley Orgánica de Protección de Datos Personales (LOPDP) \cite{lopdp2021}.
+		
+		\item \textbf{Dominio del Problema (\emph{Problem Domain}) [cláusula 3.1.18]:} Entorno real de contexto, reglas de negocio y procesos donde se despliega el sistema de software.  
+		\emph{Ejemplo SGA:} El reglamento de régimen académico de la UTEQ que norma porcentajes de asistencia, arrastres y homologaciones.
+		
+		\item \textbf{Línea Base (\emph{Baseline}) [cláusula 3.1.4]:} Versión revisada y aprobada formalmente de una especificación que sirve como punto de partida para el desarrollo bajo control de cambios.  
+		\emph{Ejemplo SGA:} La versión 1.0 de la SRS del módulo de titulación aprobada por la comisión académica antes de codificar.
 	\end{enumerate}
 	
 	\section{Referencias}
 	\printbibliography[heading=none]
-	
-	\section*{Declaraci\'on de uso de Inteligencia Artificial}
-	En cumplimiento de las normas de integridad acad\'emica y pol\'iticas de evaluaci\'on de la asignatura:
-	\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt]
-		\item \textbf{Herramientas empleadas:} Gemini (Google) y ChatGPT (OpenAI).
-		\item \textbf{Prop\'osito del uso:} Asistencia auxiliar en la estructuraci\'on de plantillas y c\'odigo \LaTeX{} (formateo y alineaci\'on de tablas en \texttt{tabularx}), correcci\'on de estilo tipogr\'afico y revisi\'on ortogr\'afica de la documentaci\'on t\'ecnica.
-		\item \textbf{M\'etodo de verificaci\'on humana:} Los integrantes del equipo redactaron, analizaron, estructuraron y validaron de manera aut\'onoma todos los requisitos funcionales y no funcionales, sus umbrales cuantitativos, condiciones de prueba, reglas de negocio del caso del GAD cantonal y la correspondencia f\'isica y bibliogr\'afica de las fuentes oficiales citadas (\cite{iso29148}, \cite{iso25010} y \cite{sriFacturacion}).
-	\end{itemize}
 	
 \end{document}
